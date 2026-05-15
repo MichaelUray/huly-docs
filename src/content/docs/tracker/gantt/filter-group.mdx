@@ -1,0 +1,58 @@
+---
+title: Filtering and Grouping
+description: Use the filter bar and group-by options to focus on specific subsets of issues in the Gantt chart.
+---
+
+import { Image } from 'astro:assets';
+import ganttFilterBarLight from '../../../../assets/gantt/filter-bar-active-light.png';
+import ganttGroupByComponentLight from '../../../../assets/gantt/group-by-component-light.png';
+import ganttGroupByPriorityLight from '../../../../assets/gantt/group-by-priority-light.png';
+
+## Overview
+
+The Gantt chart inherits the full Huly filter system, allowing you to narrow down visible issues by any combination of attributes. The **Group by** option organizes issues into swim lanes, making it easy to see work distribution across components, assignees, priorities, or milestones.
+
+## Using the Filter Bar
+
+The filter bar appears at the top of the Gantt view. Click **Filter** to open the filter picker:
+
+1. Select a **filter category** (Assignee, Component, Priority, Milestone, Status, Label, etc.).
+2. Choose one or more **values** for that category.
+3. The filter chip appears in the bar. Active filters are shown as colored chips.
+4. Add multiple filters — they are combined with AND logic.
+5. Click the **X** on a chip to remove that filter.
+
+<Image src={ganttFilterBarLight} alt="Gantt chart filter bar with two active filter chips (Component: Art, Priority: Urgent)" inferSize quality='max' />
+
+## Group By Options
+
+Click the **Group by** dropdown in the toolbar to organize issues into swim lanes:
+
+| Group by | Description |
+|----------|-------------|
+| **None** | All issues in a flat list (default) |
+| **Component** | Swim lane per component |
+| **Priority** | Swim lane per priority level (Urgent, High, Medium, Low, No priority) |
+| **Assignee** | Swim lane per team member |
+| **Milestone** | Swim lane per milestone |
+| **Status** | Swim lane per issue status |
+
+Swim lane headers are collapsible — click the chevron to hide a lane and reduce visual noise.
+
+<Image src={ganttGroupByComponentLight} alt="Gantt chart grouped by Component showing Art, Design, and Engineering swim lanes" inferSize quality='max' />
+
+## Combining Filters and Groups
+
+Filters and grouping work together. For example:
+
+- **Filter**: Milestone = v1.0, **Group by**: Component → shows only v1.0 issues, organized by component
+- **Filter**: Assignee = Alice, **Group by**: Priority → shows Alice's issues by priority
+
+<Image src={ganttGroupByPriorityLight} alt="Gantt chart grouped by Priority with Urgent and High lanes visible" inferSize quality='max' />
+
+## Tips
+
+- Filters persist when you switch between Gantt, List, and Board views within the same project.
+- Save frequently-used filter + group combinations as **Saved Views** (see [Saved Views](./saved-views)).
+- Use **Group by Milestone** to quickly review which issues are scheduled before vs. after your key milestones.
+- The **Backlog** mode toggle (All / Active / Backlog radio buttons) works independently of the filter bar.
