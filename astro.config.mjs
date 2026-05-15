@@ -92,60 +92,6 @@ export default defineConfig({
               ]
             },
           {
-            label: "Gantt chart",
-            collapsed: false,
-            items: [
-              {
-                label: "Overview",
-                link: "/tracker/gantt/",
-              },
-              {
-                label: "Dependencies",
-                link: "/tracker/gantt/dependencies/",
-              },
-              {
-                label: "Cascade scheduling",
-                link: "/tracker/gantt/cascade/",
-              },
-              {
-                label: "Critical path",
-                link: "/tracker/gantt/critical-path/",
-              },
-              {
-                label: "Working days",
-                link: "/tracker/gantt/working-days/",
-              },
-              {
-                label: "Filtering and grouping",
-                link: "/tracker/gantt/filter-group/",
-              },
-              {
-                label: "Saved views",
-                link: "/tracker/gantt/saved-views/",
-              },
-              {
-                label: "Bulk operations",
-                link: "/tracker/gantt/bulk-operations/",
-              },
-              {
-                label: "Auto vs manual scheduling",
-                link: "/tracker/gantt/auto-manual/",
-              },
-              {
-                label: "Keyboard shortcuts",
-                link: "/tracker/gantt/shortcuts/",
-              },
-              {
-                label: "Exporting",
-                link: "/tracker/gantt/export/",
-              },
-              {
-                label: "Mobile and tablet",
-                link: "/tracker/gantt/mobile/",
-              },
-            ],
-          },
-          {
             label: "Task tracking",
             collapsed: true,
             items: [
@@ -192,6 +138,24 @@ export default defineConfig({
               {
                 label: "Scheduling action items",
                 link: "/task-tracking/scheduling-action-items/",
+              },
+              {
+                label: "Gantt chart",
+                collapsed: true,
+                items: [
+                  { label: "Overview", link: "/tracker/gantt/" },
+                  { label: "Dependencies", link: "/tracker/gantt/dependencies/" },
+                  { label: "Cascade scheduling", link: "/tracker/gantt/cascade/" },
+                  { label: "Critical path", link: "/tracker/gantt/critical-path/" },
+                  { label: "Working days", link: "/tracker/gantt/working-days/" },
+                  { label: "Filtering and grouping", link: "/tracker/gantt/filter-group/" },
+                  { label: "Saved views", link: "/tracker/gantt/saved-views/" },
+                  { label: "Bulk operations", link: "/tracker/gantt/bulk-operations/" },
+                  { label: "Auto vs manual scheduling", link: "/tracker/gantt/auto-manual/" },
+                  { label: "Keyboard shortcuts", link: "/tracker/gantt/shortcuts/" },
+                  { label: "Exporting", link: "/tracker/gantt/export/" },
+                  { label: "Mobile and tablet", link: "/tracker/gantt/mobile/" },
+                ],
               },
             ],
           },
