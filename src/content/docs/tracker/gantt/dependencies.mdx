@@ -26,7 +26,7 @@ Huly supports four standard dependency types between issues. Dependencies are re
 
 ## Lag
 
-Lag is a positive duration (in working days) added to the dependency. For example, an FS dependency with a lag of 2 days means the successor starts 2 working days *after* the predecessor finishes, not immediately.
+Lag is a duration (in working days) added to the dependency. Positive lag adds a gap, negative lag overlaps the two tasks. For example, an FS dependency with a lag of 2 days means the successor starts 2 working days *after* the predecessor finishes; an FS dependency with a lag of −1 lets the successor start one working day *before* the predecessor finishes.
 
 Lag is configured in the **Visual Dependency Editor** and displayed as a small badge on the dependency arrow.
 
@@ -58,5 +58,5 @@ The arrow style varies by type: FS arrows run from the right edge of the predece
 
 - Dependency arrows are color-coded: **orange** arrows indicate the dependency is on the **critical path**.
 - You can remove a dependency by right-clicking its arrow and selecting **Remove**.
-- Lag can be 0 (immediate start/finish constraint) or any positive integer.
+- Lag can be 0 (immediate start/finish constraint), any positive integer (gap), or any negative integer (overlap).
 - SS and FF dependencies are especially useful for parallel workstreams that share a hard start or end constraint.
