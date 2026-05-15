@@ -5,7 +5,6 @@ description: Control whether an issue participates in cascade scheduling or is p
 
 import { Image } from 'astro:assets';
 import ganttSchedulingToggleLight from '../../../../assets/gantt/auto-manual-toggle-light.png';
-import ganttPinIconLight from '../../../../assets/gantt/auto-manual-pin-icon-light.png';
 
 ## Overview
 
@@ -23,7 +22,7 @@ Every issue in Huly's Gantt chart has a **scheduling mode**: **Auto** or **Manua
 - Cascade shifts stop at this issue — successors of a manual issue are not affected when predecessors are dragged.
 - A **pin icon** is shown inside the bar as a visual indicator.
 
-<Image src={ganttPinIconLight} alt="Gantt chart bar showing the pin icon indicating Manual scheduling mode" inferSize quality='max' />
+A small pin icon appears inside the bar near its left edge when the issue is in Manual mode. The pin is not shown for Auto-mode issues, so its presence makes manually-pinned bars immediately distinguishable in the timeline.
 
 ## How to Switch Scheduling Mode
 

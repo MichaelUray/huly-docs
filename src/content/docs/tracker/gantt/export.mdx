@@ -5,8 +5,6 @@ description: Export the Gantt chart as a PNG image or PDF document for reporting
 
 import { Image } from 'astro:assets';
 import ganttExportMenuLight from '../../../../assets/gantt/export-hamburger-menu-light.png';
-import ganttExportPngLight from '../../../../assets/gantt/export-png-preview-light.png';
-import ganttExportPdfLight from '../../../../assets/gantt/export-pdf-preview-light.png';
 import ganttExportFullscreenLight from '../../../../assets/gantt/export-fullscreen-light.png';
 
 ## Overview
@@ -30,7 +28,7 @@ The PNG export renders the Gantt chart as a high-resolution data-driven SVG conv
 - **Resolution** — optimized for screen and presentation use at 1× device pixel ratio
 - **File name** — automatically named `gantt-YYYY-MM-DD.png` using the current date
 
-<Image src={ganttExportPngLight} alt="Example PNG export output showing the full Gantt chart with sidebar and all bars" inferSize quality='max' />
+The exported PNG includes the full timeline from the earliest to the latest issue date, with issue titles in the left sidebar column, rendered at screen resolution.
 
 ## PDF Export
 
@@ -40,7 +38,7 @@ The PDF export uses jsPDF to generate a custom-size document:
 - **Landscape orientation** — Gantt charts are rendered in landscape by default
 - **File name** — automatically named `gantt-YYYY-MM-DD.pdf`
 
-<Image src={ganttExportPdfLight} alt="Example PDF export preview showing the Gantt chart in landscape orientation" inferSize quality='max' />
+The exported PDF opens as a landscape-oriented document sized to fit the full chart. The file is named `gantt-YYYY-MM-DD.pdf` and downloads automatically.
 
 ## Fullscreen Mode
 

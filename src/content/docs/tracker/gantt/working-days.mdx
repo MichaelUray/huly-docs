@@ -3,9 +3,6 @@ title: Working Days
 description: Configure which days count as working days to make scheduling, lag calculations, and cascade shifts respect your team's calendar.
 ---
 
-import { Image } from 'astro:assets';
-import ganttWorkingDaysSettingsLight from '../../../../assets/gantt/working-days-settings-light.png';
-import ganttWeekendTintLight from '../../../../assets/gantt/working-days-weekend-tint-light.png';
 
 ## Overview
 
@@ -27,7 +24,7 @@ By default, Huly treats all 7 days of the week as working days when calculating 
 5. Optionally add **Custom holidays** as specific dates.
 6. Click **Save**.
 
-<Image src={ganttWorkingDaysSettingsLight} alt="Project settings panel showing Working Days configuration with Mon-Fri selected" inferSize quality='max' />
+The Working Days configuration panel shows a grid of the seven weekdays with toggle buttons. Enabled days are highlighted; disabled days are grayed out. A separate section lists custom holiday dates with an add-date control.
 
 ## Weekend Tint in the Gantt Chart
 
@@ -35,7 +32,7 @@ After configuring working days, non-working day columns in the Gantt timeline ar
 
 The tint does not affect bar rendering — bars still span their full date range including non-working days. The tint is purely informational.
 
-<Image src={ganttWeekendTintLight} alt="Gantt chart showing Saturday and Sunday columns with gray tint indicating non-working days" inferSize quality='max' />
+In the Gantt timeline, Saturday and Sunday columns (or whichever days are marked as non-working) appear with a light gray background band that spans the full height of the chart, making it easy to spot weekends at a glance.
 
 ## Effect on Scheduling
 

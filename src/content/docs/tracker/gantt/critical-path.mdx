@@ -3,9 +3,6 @@ title: Critical Path
 description: Identify the longest path through your project dependency graph to understand which tasks drive your project end date.
 ---
 
-import { Image } from 'astro:assets';
-import ganttCriticalPathLight from '../../../../assets/gantt/critical-path-highlighted-light.png';
-import ganttSlackColumnLight from '../../../../assets/gantt/critical-path-slack-column-light.png';
 
 ## What is the Critical Path?
 
@@ -21,7 +18,7 @@ When Critical Path highlighting is enabled, Huly displays:
 - **Orange arrows** — dependency arrows that are part of the critical path
 - **Slack column** in the sidebar — shows the number of working days each issue can slip before it becomes critical
 
-<Image src={ganttCriticalPathLight} alt="Gantt chart with critical path issues and arrows highlighted in orange" inferSize quality='max' />
+When enabled, bars on the critical path turn orange and the dependency arrows connecting them also highlight in orange, making the longest path through the project immediately visible.
 
 ## How to Enable Critical Path View
 
@@ -41,7 +38,7 @@ The **Slack** column in the Gantt sidebar shows:
 - `3 d` — issue can slip 3 working days before becoming critical
 - `-2 d` — issue is already 2 working days behind schedule
 
-<Image src={ganttSlackColumnLight} alt="Gantt sidebar showing Slack column with values for each issue" inferSize quality='max' />
+The Slack column appears between the issue title and the timeline area. Each row shows a numeric value such as `0 d`, `3 d`, or `-2 d` indicating how many working days that issue can slip before becoming critical.
 
 ## Tips
 

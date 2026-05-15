@@ -5,8 +5,6 @@ description: Select multiple issues at once and drag them together or apply the 
 
 import { Image } from 'astro:assets';
 import ganttBulkSelectedLight from '../../../../assets/gantt/bulk-selected-bars-light.png';
-import ganttBulkDragLight from '../../../../assets/gantt/bulk-drag-preview-light.png';
-import ganttBulkConfirmLight from '../../../../assets/gantt/bulk-confirm-popup-light.png';
 
 ## Overview
 
@@ -33,7 +31,7 @@ Selected bars are highlighted with a distinct outline and a selection indicator.
 3. All selected bars move together — they maintain their relative positions (the **delta** is shared).
 4. While dragging, a preview shows where all selected bars will land.
 
-<Image src={ganttBulkDragLight} alt="Gantt chart during bulk drag showing multiple bars moving together with a shared delta" inferSize quality='max' />
+During the drag, all selected bars move in unison — each bar shifts by the same number of days as the one you are actively dragging. A semi-transparent preview shows each bar's projected landing position before you release.
 
 ## Confirm Dialog
 
@@ -44,7 +42,7 @@ When you release the drag, Huly shows a confirmation dialog:
 - **Apply** — commits all changes atomically.
 - **Cancel** — discards the entire operation.
 
-<Image src={ganttBulkConfirmLight} alt="Bulk drag confirm popup showing 3 selected issues and 2 cascade-shifted successors" inferSize quality='max' />
+The confirm dialog lists each selected issue with its new start and due dates, followed by any cascade-shifted successors. Clicking **Apply** commits all changes atomically; **Cancel** discards everything.
 
 ## Tips
 

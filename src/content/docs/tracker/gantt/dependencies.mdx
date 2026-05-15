@@ -5,7 +5,6 @@ description: Model Finish-to-Start, Start-to-Start, Finish-to-Finish, and Start-
 
 import { Image } from 'astro:assets';
 import ganttDepArrowLight from '../../../../assets/gantt/dependencies-fs-arrow-light.png';
-import ganttDepTypesLight from '../../../../assets/gantt/dependencies-types-light.png';
 import ganttDepEditorLight from '../../../../assets/gantt/dependencies-editor-light.png';
 
 ## Overview
@@ -31,7 +30,7 @@ Lag is a positive duration (in working days) added to the dependency. For exampl
 
 Lag is configured in the **Visual Dependency Editor** and displayed as a small badge on the dependency arrow.
 
-<Image src={ganttDepTypesLight} alt="Gantt chart showing SS, FF, and SF dependency types with different arrow styles" inferSize quality='max' />
+The arrow style varies by type: FS arrows run from the right edge of the predecessor to the left edge of the successor; SS arrows connect left edges; FF arrows connect right edges; SF arrows run from the left edge of the predecessor to the right edge of the successor.
 
 ## How to Add a Dependency
 

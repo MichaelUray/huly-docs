@@ -5,8 +5,6 @@ description: Understand how Huly automatically shifts dependent issues when you 
 
 import { Image } from 'astro:assets';
 import ganttCascadeBeforeLight from '../../../../assets/gantt/cascade-before-light.png';
-import ganttCascadeDragLight from '../../../../assets/gantt/cascade-drag-light.png';
-import ganttCascadeConfirmLight from '../../../../assets/gantt/cascade-confirm-light.png';
 
 ## Overview
 
@@ -27,7 +25,7 @@ Only **Auto** mode issues in the successor chain are included in the cascade. Ma
 
 While dragging, a semi-transparent **preview bar** shows where the issue will land. Successor bars also shift in preview mode to give you a live sense of the ripple effect before you release.
 
-<Image src={ganttCascadeDragLight} alt="Gantt chart during drag showing preview bar and cascaded successor preview positions" inferSize quality='max' />
+While dragging, the bar being moved shows at its projected position as a semi-transparent preview. Successor bars simultaneously shift to their projected new positions, giving a live preview of the cascade ripple effect before you release.
 
 ## Confirm Popup
 
@@ -37,7 +35,7 @@ When you release the drag, the Confirm Cascade dialog appears:
 - **Affected issues list** — all successor issues that will be shifted, with their old and new dates.
 - **Apply / Cancel** — confirm or discard all changes atomically. No partial commits.
 
-<Image src={ganttCascadeConfirmLight} alt="Confirm Cascade popup listing the primary issue and three affected successor issues" inferSize quality='max' />
+The confirm popup shows the primary issue at the top with its new start and due dates, followed by each cascade-affected successor in order. Each entry shows the before and after dates. **Apply** commits all at once; **Cancel** restores the original state.
 
 ## How to Skip Cascade for One Issue
 
