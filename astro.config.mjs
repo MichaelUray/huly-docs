@@ -149,6 +149,8 @@ export default defineConfig({
                   { label: "Critical path", link: "/tracker/gantt/critical-path/" },
                   { label: "Working days", link: "/tracker/gantt/working-days/" },
                   { label: "Filtering and grouping", link: "/tracker/gantt/filter-group/" },
+                  { label: "Advanced search", link: "/tracker/gantt/advanced-search/" },
+                  { label: "No search results", link: "/tracker/gantt/empty-state/" },
                   { label: "Saved views", link: "/tracker/gantt/saved-views/" },
                   { label: "Bulk operations", link: "/tracker/gantt/bulk-operations/" },
                   { label: "Auto vs manual scheduling", link: "/tracker/gantt/auto-manual/" },
