@@ -15,9 +15,12 @@ Saved Views capture the current state of your Gantt chart — including active f
 ## Key Features
 
 - **Filter + Group snapshot** — saves the exact combination of active filters and group-by setting
+- **Bar-coloring snapshot** — the **Color by** dropdown state plus the past-due / blocked / sub-issue-progress toggles are saved along with the view. See [Bar coloring and overlays](./bar-coloring)
 - **Time-window pin** — optionally pins the visible date range so the view always opens at the same time position
 - **Sharing** — views can be scoped to just you (personal) or shared with all project members
 - **Instant load** — switch between views from a dropdown without re-applying filters manually
+- **Modified indicator** — once any of the captured fields drifts from the saved snapshot the toolbar shows a `Modified` marker; pick the same view again to revert
+- **Active-default reset** — switching to a different view (or the synthetic _Default_) resets the bar-color toolbar to its spec defaults (Status / past-due on / blocked on / progress off) so the prior view's encoding never leaks across switches
 
 ## How to Save a View
 

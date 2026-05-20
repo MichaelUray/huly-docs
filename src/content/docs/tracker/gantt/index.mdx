@@ -17,11 +17,13 @@ Use the Gantt view when you need to plan sprints across multiple weeks, coordina
 ## Key Features
 
 - **Visual timeline** — bars rendered from `startDate` to `dueDate` at configurable zoom levels (Day, Week, Month, Quarter)
+- **Bar coloring** — choose what each bar's color means via the toolbar **Color by** dropdown: Status (default) / Priority / Assignee / Component / Milestone / Uniform. See [Bar coloring and overlays](./bar-coloring)
+- **Overlays** — past-due bars get a red left stripe; blocked bars get a diagonal hatch; critical-path bars get a red border — all readable on top of any color mode
 - **Dependency arrows** — directional arrows between bars for Finish-to-Start, Start-to-Start, Finish-to-Finish, and Start-to-Finish relations
 - **Cascade scheduling** — drag one bar and dependent bars automatically shift forward
-- **Critical Path highlighting** — the longest path through your dependency graph is highlighted in orange
+- **Critical Path highlighting** — the longest path through your dependency graph is highlighted in red
 - **Working-days awareness** — weekends and custom holidays are visually tinted and optionally skipped in scheduling calculations
-- **Saved views** — save your current filter, grouping, and time window as a named view and share it with teammates
+- **Saved views** — save your current filter, grouping, time window AND bar-coloring choices as a named view and share it with teammates
 - **Bulk operations** — select multiple issues with Cmd+Click or Shift+Click and drag them together
 - **Export** — render the full Gantt chart as PNG or PDF via the hamburger menu
 
@@ -39,9 +41,11 @@ Use the Gantt view when you need to plan sprints across multiple weeks, coordina
 Once in Gantt view, each issue appears as a color-coded bar:
 
 - **Bar position** = `startDate` (left edge) to `dueDate` (right edge)
-- **Bar color** = project or component color
+- **Bar color** = whatever **Color by** in the toolbar currently maps to — Status (default), Priority, Assignee, Component, Milestone, or Uniform. See [Bar coloring and overlays](./bar-coloring) for the full reference
 - **Bar label** = issue identifier and title, shown inside or alongside the bar depending on zoom level
 - **Pin icon** on a bar = issue is in **Manual** scheduling mode (will not be cascade-shifted)
+- **Red left stripe** = past-due (dueDate has passed and the issue is not Done)
+- **Diagonal hatch** = blocked (at least one finish-to-start predecessor is not Done)
 
 <Image src={ganttOverviewDataLight} alt="Gantt chart with Game Design project issues showing bars and dependencies" inferSize quality='max' />
 

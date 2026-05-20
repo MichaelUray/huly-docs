@@ -144,6 +144,7 @@ export default defineConfig({
                 collapsed: true,
                 items: [
                   { label: "Overview", link: "/tracker/gantt/" },
+                  { label: "Bar coloring and overlays", link: "/tracker/gantt/bar-coloring/" },
                   { label: "Dependencies", link: "/tracker/gantt/dependencies/" },
                   { label: "Cascade scheduling", link: "/tracker/gantt/cascade/" },
                   { label: "Critical path", link: "/tracker/gantt/critical-path/" },

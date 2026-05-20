@@ -53,4 +53,6 @@ When a search returns zero issues, the Tracker shows a dedicated empty-state car
 
 - Prefix-targeted searches always win over the scope dropdown. If you type `title:foo`, the **Search in…** setting is ignored — your prefix is explicit.
 - Combining multiple prefix-targeted clauses works: `title:loader id:HULY-` matches issues that have "loader" in the title **and** an identifier starting with HULY-.
-- The Lucene-style boolean operators (`AND`, `OR`, `NOT`) are accepted in prefix-targeted clauses. Bare-term scoped searches escape reserved characters automatically, so `C++ developer` works without manual escaping.
+- The Lucene-style boolean operators (`AND`, `OR`, `NOT`) are accepted in prefix-targeted clauses.
+- Special characters work transparently — `title:C++`, `comments:foo/bar`, `title:POC:123`, `title:list[0]` and similar inputs are auto-escaped so the Elasticsearch query_string parser reads them as literal text. Wildcards (`*`, `?`) and hyphens stay un-escaped because they are intentional syntax.
+- Quoted phrases (`title:"release notes"`) are passed through as phrase literals, even when they contain whitespace or otherwise reserved characters.
