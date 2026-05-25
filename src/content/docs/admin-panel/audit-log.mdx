@@ -7,7 +7,6 @@ import { Image } from "astro:assets";
 import auditDefault from "../../../assets/screenshots/huly/admin-panel/audit-default.png";
 import auditFilters from "../../../assets/screenshots/huly/admin-panel/audit-filters.png";
 import auditDatePresets from "../../../assets/screenshots/huly/admin-panel/audit-date-presets.png";
-import auditBatchGroup from "../../../assets/screenshots/huly/admin-panel/audit-batch-group.png";
 import auditDetails from "../../../assets/screenshots/huly/admin-panel/audit-details.png";
 
 Every administrative action — `disable_account`, `set_workspace_member_role`, `archive_workspace`, `trigger_password_reset`, `add_to_workspace`, the four `bulk_*` variants, and more — writes a row to the `admin_audit_log` table. The Audit log page is your read-only view of that table with filtering, sorting, and batch grouping for bulk operations.
@@ -45,13 +44,9 @@ Each column also has a small filter icon. Clicking it scrolls the page up and fo
 
 ## Batch grouping
 
-Bulk operations write one audit row per affected target, all stamped with a single `batch_id` UUID. The audit page groups consecutive same-batch rows under a non-interactive header showing the admin, the action, the entry count, and the timestamp:
+Bulk operations write one audit row per affected target, all stamped with a single `batch_id` UUID. The audit page groups consecutive same-batch rows under a non-interactive header showing the admin who ran the action, the action name, the entry count, and the timestamp. A `bulk_disable` of 50 accounts therefore shows as one collapsible group, not 50 separate rows polluting the log.
 
-<Image src={auditBatchGroup} alt="A group of audit rows from one bulk_disable action collapsed under a header showing admin name, action, count, and timestamp" inferSize quality="max" />
-
-This means a `bulk_disable` of 50 accounts shows as one collapsed group, not 50 separate rows polluting the log.
-
-Individual (non-bulk) actions are rendered as plain rows without a header.
+Individual (non-bulk) actions are rendered as plain rows without a group header.
 
 ## Details column
 
