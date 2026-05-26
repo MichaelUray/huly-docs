@@ -10,6 +10,8 @@ import usersActiveFilter from "../../../assets/screenshots/huly/admin-panel/user
 import usersOrphanFilter from "../../../assets/screenshots/huly/admin-panel/users-orphan-filter.png";
 import usersDrawer from "../../../assets/screenshots/huly/admin-panel/users-drawer.png";
 import usersBulkBar from "../../../assets/screenshots/huly/admin-panel/users-bulk-bar.png";
+import usersDeleteConfirm from "../../../assets/screenshots/huly/admin-panel/users-delete-confirm.png";
+import usersDrawerSelfBlock from "../../../assets/screenshots/huly/admin-panel/users-drawer-self-block.png";
 
 The `Users` section is the default landing page of the admin panel. It shows every account on your instance with the columns you need to triage day to day: name, email, authentication methods, workspace count, last activity, and status.
 
@@ -69,11 +71,42 @@ The drawer header shows the account's name, primary email, status pill, and an A
 
 The drawer has Prev/Next pager controls so you can step through accounts without going back to the table. Click outside the drawer or press `Escape` to dismiss.
 
+### Danger zone — Delete account
+
+The drawer's **Danger zone** at the bottom offers a permanent, irreversible removal of the account. It surfaces the existing server-side `deleteAccount` RPC behind a typed-confirm dialog so a misclick can't fire it:
+
+<Image src={usersDeleteConfirm} alt="Delete account confirmation dialog with typed DELETE input, consequences list, and red Delete account button" inferSize quality="max" />
+
+The confirmation lists exactly what disappears when you proceed:
+
+- The account row and its password (if any).
+- All workspace memberships.
+- Mailbox secrets, integration secrets, and OAuth links.
+- Billing subscriptions and per-workspace permission grants (V19 `subscription` + V24 `workspace_permissions` rows are removed in the same transaction so the cascade is atomic).
+
+What's preserved: historical `createdBy` / `modifiedBy` references still resolve to the deleted user's name. Their `social_id` rows stay in the database but are marked un-verified, which keeps comments and audit history readable without leaking the active identity back to a re-registered email.
+
+Server-side guards refuse the call when:
+
+- The caller is the target (`cannot_self_delete`).
+- The target is the last account in `ADMIN_EMAILS` (`last_admin`).
+- The token does not carry the admin claim (`Forbidden`).
+
+To temporarily lock a user out without losing data, use **Disable** instead. Bulk delete is intentionally not offered — for fleet cleanup, disable first, then delete one row at a time.
+
+### Self-block
+
+When the drawer is opened on the calling admin's own row, the **Disable account** and **Delete account…** buttons are greyed out with explanatory labels:
+
+<Image src={usersDrawerSelfBlock} alt="Admin's own drawer showing Disable account and Delete account both disabled with 'Cannot disable yourself' / 'Cannot delete yourself' labels" inferSize quality="max" />
+
+The server-side `cannot_self_disable` / `cannot_self_delete` guards remain the security primitive — this is a UX layer so the destructive action does not even reach the typed-confirm step.
+
 ## Bulk actions
 
-Select rows via the per-row checkboxes (or the select-all checkbox in the header) to enable the bulk action bar:
+Select rows via the per-row checkboxes (or the select-all checkbox in the header) to enable the bulk action bar. The bar appears as a sticky strip directly above the table (between the filter row and the header row) and stays visible while you scroll — the position matches the standard data-grid convention so the affordance is where the eye expects it.
 
-<Image src={usersBulkBar} alt="Bulk action bar with Disable, Send password reset, Add to workspace, Remove from workspace" inferSize quality="max" />
+<Image src={usersBulkBar} alt="Bulk action bar above the table with Add to workspace, Remove from workspace, Disable, Enable, Send password reset" inferSize quality="max" />
 
 Available bulk actions:
 

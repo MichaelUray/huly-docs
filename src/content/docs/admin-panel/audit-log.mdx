@@ -9,13 +9,13 @@ import auditFilters from "../../../assets/screenshots/huly/admin-panel/audit-fil
 import auditDatePresets from "../../../assets/screenshots/huly/admin-panel/audit-date-presets.png";
 import auditDetails from "../../../assets/screenshots/huly/admin-panel/audit-details.png";
 
-Every administrative action — `disable_account`, `set_workspace_member_role`, `archive_workspace`, `trigger_password_reset`, `add_to_workspace`, the four `bulk_*` variants, and more — writes a row to the `admin_audit_log` table. The Audit log page is your read-only view of that table with filtering, sorting, and batch grouping for bulk operations.
+Every administrative action — `create_account`, `delete_account`, `disable`, `enable`, `set_workspace_member_role`, `archive_workspace`, `trigger_password_reset`, `add_workspace_member`, `remove_member`, the four `bulk_*` variants, and more — writes a row to the `admin_audit_log` table. The Audit log page is your read-only view of that table with filtering, sorting, and batch grouping for bulk operations.
 
 <Image src={auditDefault} alt="Audit log default view with filter row and grouped batch entries" inferSize quality="max" />
 
 ## Default view
 
-The page opens with the **Last 3 days** time range and the latest entries on top. The render is capped at 200 rows; when more match your filters, a `Showing most recent 200 of N` notice appears at the top.
+The page opens with the **Last 3 days** time range and the latest entries on top. The To-date is inclusive through end-of-day, so entries created earlier today are visible without switching to a Custom range. The render is capped at 200 rows; when more match your filters, a `Showing most recent 200 of N` notice appears at the top.
 
 ## Filtering
 
@@ -55,6 +55,8 @@ Each row has a `Details` column that contains the action's structured JSON paylo
 <Image src={auditDetails} alt="Details column expanded showing JSON payload of an admin action" inferSize quality="max" />
 
 The payload includes the diff or arguments of the action — for example, an `enable_account` row carries `{ accountUuid, previousStatus }`, and a `set_workspace_member_role` row carries `{ workspaceUuid, accountUuid, oldRole, newRole }`.
+
+A `delete_account` row carries `{ targetEmail }` — the deleted account's primary email (or `null` for OIDC-only targets). The cascade itself is not enumerated in the audit payload because the target row is gone by the time the audit is written; consult the [Users page docs](/admin-panel/users#danger-zone--delete-account) for what gets cleared in the same transaction.
 
 ## Retention
 
