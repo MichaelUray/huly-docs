@@ -9,13 +9,15 @@ import auditFilters from "../../../assets/screenshots/huly/admin-panel/audit-fil
 import auditDatePresets from "../../../assets/screenshots/huly/admin-panel/audit-date-presets.png";
 import auditDetails from "../../../assets/screenshots/huly/admin-panel/audit-details.png";
 
-Every administrative action — `create_account`, `delete_account`, `disable`, `enable`, `set_workspace_member_role`, `archive_workspace`, `trigger_password_reset`, `add_workspace_member`, `remove_member`, the four `bulk_*` variants, and more — writes a row to the `admin_audit_log` table. The Audit log page is your read-only view of that table with filtering, sorting, and batch grouping for bulk operations.
+Every administrative action — `create_account`, `disable`, `enable`, `set_workspace_member_role`, `archive_workspace`, `trigger_password_reset`, `add_workspace_member`, `remove_member`, `admin_action_denied`, the four `bulk_*` variants, and more — writes a row to the `admin_audit_log` table. The Audit log page is your read-only view of that table with filtering, sorting, and batch grouping for bulk operations.
 
 <Image src={auditDefault} alt="Audit log default view with filter row and grouped batch entries" inferSize quality="max" />
 
 ## Default view
 
 The page opens with the **Last 3 days** time range and the latest entries on top. The To-date is inclusive through end-of-day, so entries created earlier today are visible without switching to a Custom range. The render is capped at 200 rows; when more match your filters, a `Showing most recent 200 of N` notice appears at the top.
+
+When switching the preset dropdown from a fixed window to **Custom range**, the From and To dates inherit the previously-active preset's values rather than clearing. This lets an admin tweak one boundary without re-entering both. (The fall-back is a 3-day window when both inputs are empty.)
 
 ## Filtering
 
@@ -36,11 +38,47 @@ The `Reset` button next to the filter row clears every filter and returns to the
 
 If no rows match, the table shows an empty state with a `Clear filter` shortcut.
 
+## Denied admin actions (V13)
+
+The audit log captures not only successful admin actions but also denied ones, with action type `admin_action_denied`. Two server-side guards write such rows:
+
+- **`cannot_self_disable`** — fires when an admin attempts to disable their own account via the Disable button (the UI greys it out, but the audit row also catches direct RPC calls that bypass the UI).
+- **`last_admin`** — fires when an admin attempts to disable the only remaining account whose email appears in `ADMIN_EMAILS` (this would lock the instance out of all admin RPCs).
+
+The audit row's `details` payload includes:
+
+- `reason` — `self_disable` or `last_admin`
+- `method` — `disableAccount` (single-target RPC) or `bulkSetDisabled` (bulk RPC; the per-target audit-write fires inside the same RPC, with the bulk-self case audited once before the bulk loop strips the self-target)
+- `target` — the account UUID the denied action was aimed at
+
+### Rate-limit
+
+`admin_action_denied` rows are throttled per `(adminUuid, reason, method)` per 1-hour window using an in-memory map. The first denial in a window is audited; subsequent identical denials still throw their platform error to the caller but do not produce duplicate audit rows. This is intentional — the audit log should record the attempt pattern without flooding under an automated probe. The map resets on account-service pod restart (acceptable threat-model trade-off).
+
+### Pre-auth denials are not audited
+
+A request that fails `requireAdmin` (no admin claim on the token, expired session, etc.) does NOT produce an audit row. Writing audit rows pre-auth would itself be an attack surface — an attacker could spam audit rows that name no actor uuid. The platform-level Forbidden response is still returned to the caller in that case.
+
+### Filtering by denial action
+
+The Actions multi-select filter at the top of the page now includes `admin_action_denied`. Selecting it surfaces all denied-attempt rows; combine with the Admin filter to scope to one actor, or the date-range presets to scope to a window.
+
 ## Sorting
 
 Click any of the **Time**, **Admin**, **Action**, or **Target** column headers to sort. The arrow indicator only appears on the active sort column.
 
 Each column also has a small filter icon. Clicking it scrolls the page up and focuses the relevant top-bar input — a convenience for quickly narrowing on something you spotted in the table.
+
+### Timestamp tooltip (V8)
+
+Every timestamp cell in the table — both the per-row times and the bulk-action batch-header timestamps — exposes a two-line tooltip on hover:
+
+```
+Local time: 2026-05-27 14:33:54 (Europe/Vienna, UTC+1)
+UTC:        2026-05-27 13:33:54
+```
+
+The Local time uses the browser's resolved timezone (via `Intl.DateTimeFormat`); the UTC line gives an unambiguous absolute reference for cross-region investigations. If the browser doesn't expose `Intl` (very rare), the tooltip degrades to "Local time:" without the zone-name parenthetical.
 
 ## Batch grouping
 
@@ -55,8 +93,6 @@ Each row has a `Details` column that contains the action's structured JSON paylo
 <Image src={auditDetails} alt="Details column expanded showing JSON payload of an admin action" inferSize quality="max" />
 
 The payload includes the diff or arguments of the action — for example, an `enable_account` row carries `{ accountUuid, previousStatus }`, and a `set_workspace_member_role` row carries `{ workspaceUuid, accountUuid, oldRole, newRole }`.
-
-A `delete_account` row carries `{ targetEmail }` — the deleted account's primary email (or `null` for OIDC-only targets). The cascade itself is not enumerated in the audit payload because the target row is gone by the time the audit is written; consult the [Users page docs](/admin-panel/users#danger-zone--delete-account) for what gets cleared in the same transaction.
 
 ## Retention
 
