@@ -5,6 +5,8 @@ description: List, filter, and manage workspace spaces — Projects, Funnels, Te
 
 import { Image } from "astro:assets";
 import wacResourcesAll from "../../../assets/screenshots/huly/wac/resources-all.png";
+import wacSpaceDrawer from "../../../assets/screenshots/huly/wac/space-drawer.png";
+import wacInheritanceTree from "../../../assets/screenshots/huly/wac/inheritance-tree.png";
 
 The **Resources** tab lists every space in the workspace and lets Owners and Maintainers review, search, archive, and re-privatize them from one table. A *space* in this context is anything that holds member-scoped data: a tracker Project, a Funnel, a Teamspace, a Drive, a Cards space, and so on.
 
@@ -58,11 +60,16 @@ Workspace
 
 This is read-only and useful when you want to understand which space-types exist and how spaces nest under them.
 
+<Image src={wacInheritanceTree} alt="Resource hierarchy modal showing Workspace → SpaceType → Space tree with Cards, Teamspace, Drive, and Funnel branches" inferSize quality="max" />
+
 ## Space Drawer
 
 Clicking a row opens a right-side drawer with the space's full membership editor:
 
+<Image src={wacSpaceDrawer} alt="Space Drawer with Members editor, Owners section, and Flags (Private, Auto-join, Archived) toggles" inferSize quality="max" />
+
 - **Members** — the direct membership of the space with per-member role pickers. Add and remove members from here.
+- **Owners** — chip-style editor that lists the space's Owners. Owners are surfaced as a distinct group with their own `Save Owners` button so role-changes are explicit and audit-logged separately from member edits.
 - **Privacy** — toggle public/private. Toggling to private dissolves implicit public membership.
 - **Auto-join** — toggle whether new workspace members are auto-added.
 - **Archive / Unarchive** — flip the archived flag.

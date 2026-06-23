@@ -8,6 +8,7 @@ import wacPeopleAll from "../../../assets/screenshots/huly/wac/people-all.png";
 import wacPeopleByRole from "../../../assets/screenshots/huly/wac/people-by-role.png";
 import wacPeopleInactive from "../../../assets/screenshots/huly/wac/people-inactive.png";
 import wacPersonDrawer from "../../../assets/screenshots/huly/wac/person-drawer.png";
+import wacPeopleBulkbarActive from "../../../assets/screenshots/huly/wac/people-bulkbar-active.png";
 
 The **People** tab lists every member of the workspace and is the place to change roles, batch-edit memberships, find inactive accounts, and triage pending invites.
 
@@ -41,6 +42,10 @@ Every column header is sortable. Click to toggle ascending/descending. A small a
 ## Bulk actions
 
 Selecting one or more rows with the checkbox in the first column reveals a **bulk actions bar** above the table:
+
+<Image src={wacPeopleBulkbarActive} alt="People tab with two members selected, showing the active bulk-actions bar: Add to Space, Remove from Space, Change role dropdown, Apply, Cancel" inferSize quality="max" />
+
+The selection counter (`2 selected`) appears at the left of the bar, followed by the available actions. The `Add to Space` and `Remove from Space` buttons are gated behind the `WAC_PREVIEW_FEATURES` flag — see [Preview features](/workspace-access-center/preview-features) for how operators opt in.
 
 - **Add to Space** — opens a space picker. Selected members are added to the chosen space at their existing workspace role (or as `Member`, depending on the space type).
 - **Remove from Space** — opens a space picker scoped to spaces the selection currently belongs to. Members are removed from the chosen space.
