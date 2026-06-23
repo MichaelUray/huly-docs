@@ -1,0 +1,80 @@
+---
+title: Resources
+description: List, filter, and manage workspace spaces — Projects, Funnels, Teamspaces, Drives, Cards — from one table.
+---
+
+import { Image } from "astro:assets";
+import wacResourcesAll from "../../../assets/screenshots/huly/wac/resources-all.png";
+
+The **Resources** tab lists every space in the workspace and lets Owners and Maintainers review, search, archive, and re-privatize them from one table. A *space* in this context is anything that holds member-scoped data: a tracker Project, a Funnel, a Teamspace, a Drive, a Cards space, and so on.
+
+<Image src={wacResourcesAll} alt="Resources tab, All sub-tab showing spaces with type, members, privacy, auto-join, and state" inferSize quality="max" />
+
+## Sub-tabs
+
+The sub-tab strip narrows the table:
+
+- **All** — every space, regardless of privacy or state.
+- **Private only** — spaces whose privacy flag is `private`. Membership is explicit.
+- **Public only** — spaces whose privacy flag is `public`. Workspace members can self-join (subject to space-type rules).
+- **Archived** — spaces that have been archived. They are read-only by default and excluded from the workbench navigators.
+- **Auto-join** — spaces with `autoJoin = true`. New workspace members are added automatically on activation.
+
+## Columns
+
+The table has six columns:
+
+- **Type** — emoji + class label (`Project`, `Funnel`, `Teamspace`, `Drive`, `Cards`, `Chat`, `Office`, `Guest-Links`).
+- **Name** — the space's display name. Click to open the [Space Drawer](#space-drawer).
+- **Members** — count of direct members of the space.
+- **Privacy** — `Public` or `Private`.
+- **Auto-join** — `✓ Auto-join` if the space has auto-join enabled, `—` otherwise.
+- **State** — `Active`, `Archived`, or `v2 coming soon` for capability-matrix placeholders (see below).
+
+All columns are sortable. Click a header to toggle ascending/descending.
+
+## Search
+
+A full-text search box above the table matches against space name. The substring matcher is case-insensitive and runs against the workspace-side index, so it is fast even on workspaces with thousands of spaces.
+
+## Bulk actions
+
+Selecting one or more rows reveals a bulk-actions bar:
+
+- **Archive selected** — archives the selected spaces. Archived spaces become read-only and disappear from the workbench navigators. The Resources table still lists them on the **Archived** sub-tab.
+- **Make private** — flips `privacy` to `private` on the selected spaces. Public membership is dissolved; only members listed in the space remain.
+- **Transfer ownership** — opens a person picker. The selected member becomes the new Owner of every selected space. The previous Owner retains Maintainer.
+- **Cancel** — clears the selection.
+
+## View hierarchy
+
+A **View hierarchy** button at the top opens a modal that shows the workspace structure top-down:
+
+```
+Workspace
+└── SpaceType (Project, Funnel, …)
+    └── Space
+```
+
+This is read-only and useful when you want to understand which space-types exist and how spaces nest under them.
+
+## Space Drawer
+
+Clicking a row opens a right-side drawer with the space's full membership editor:
+
+- **Members** — the direct membership of the space with per-member role pickers. Add and remove members from here.
+- **Privacy** — toggle public/private. Toggling to private dissolves implicit public membership.
+- **Auto-join** — toggle whether new workspace members are auto-added.
+- **Archive / Unarchive** — flip the archived flag.
+
+Every edit is written to the workspace audit log with the actor's UUID, the action name, and the space ID.
+
+## Capability matrix (v2 coming soon)
+
+Three space classes appear in the Resources table with a `v2 coming soon` state:
+
+- **Chat** (`Chat Channels`)
+- **Office** (`Office Rooms`)
+- **Guest-Links** (`Guest Links`)
+
+These rows are placeholders so administrators can see that the capability is recognized by WAC. The membership and privacy editors for these classes are scheduled for a follow-up release. Today they are still managed inside the respective application UIs.

@@ -1,0 +1,62 @@
+---
+title: My Access
+description: See your own workspace role, the spaces you are in, the spaces you own, and the per-resource grants involving you.
+---
+
+import { Image } from "astro:assets";
+import wacMyAccess from "../../../assets/screenshots/huly/wac/my-access.png";
+
+The **My Access** tab is the self-service view of WAC. Every workspace member — including Guests and Read-only Guests — can open this tab to see their own role, the spaces they belong to, the spaces they own, and the per-resource grants involving them.
+
+<Image src={wacMyAccess} alt="My Access tab showing workspace role with My role sub-tab" inferSize quality="max" />
+
+## Sub-tabs
+
+- **My role** — your current workspace role, shown as a large badge. A help line explains that role changes are made by a workspace Owner from the People tab.
+- **Spaces I'm in** — every space you are a direct member of, with your role per space and an `Open ↗` link.
+- **Spaces I own** — every space whose Owner is you. Useful when you want to step through "what would happen to this space if I left the workspace?"
+- **Granted to me** — per-resource grants given to you (mention-grants, document-grants, link-grants). Each grant carries scope (read / comment / edit) and an expiry if one was set.
+- **Granted by me** — per-resource grants you have given to other members. Useful to review and revoke grants you issued earlier.
+
+## My workspace role
+
+The header of the **My role** sub-tab shows your current role as a coloured badge:
+
+- `OWNER` — full control of the workspace.
+- `MAINTAINER` — broad administrative rights, no ability to transfer ownership.
+- `USER` — standard editor role.
+- `GUEST` — limited editor role, scoped to spaces a Guest has been added to.
+- `READ-ONLY GUEST` — read access only.
+- `DOCUMENT GUEST` — read access scoped to a specific document.
+
+Below the badge:
+
+> Role changes are managed by a workspace Owner from the People view.
+
+If you need a different role, ask any Owner of the workspace.
+
+## Spaces I'm in / Spaces I own
+
+Both lists show the same columns:
+
+- **Type** — emoji + class label.
+- **Name** — space name with an `Open ↗` link to the space root.
+- **My role** (Spaces I'm in) or **Members** (Spaces I own) — context-specific.
+- **Last activity** — when you last touched the space.
+
+Both tables are sortable.
+
+## Granted to me / Granted by me
+
+These two sub-tabs list per-resource grants — the fine-grained access primitives that sit below the workspace role. They are typically created when a member shares a document, mentions someone in a private space, or generates a link-grant from the share menu.
+
+Each row shows:
+
+- **Resource** — the document, card, or other entity the grant is attached to.
+- **Scope** — `read`, `comment`, or `edit`.
+- **Granted by** (or **Granted to**) — the actor on the other side of the grant.
+- **Expires** — expiry timestamp, or `—` for non-expiring grants.
+
+### Self-service Leave and Decline (preview)
+
+A **Leave** action on **Spaces I'm in** and a **Decline** action on **Granted to me** are part of the preview-features set and are hidden unless the workspace has `WAC_PREVIEW_FEATURES` enabled. See [Preview features](/workspace-access-center/preview-features). When the flag is off, the only way to leave a space today is to ask an Owner to remove you from the People tab.

@@ -1,0 +1,57 @@
+---
+title: Workspace Access Center
+description: Single-pane view for managing per-workspace people, resources, access grants, and audit history.
+---
+
+import { Image } from "astro:assets";
+import wacPeopleAll from "../../../assets/screenshots/huly/wac/people-all.png";
+import wacSettingsSidebar from "../../../assets/screenshots/huly/wac/settings-sidebar.png";
+
+The **Workspace Access Center** (WAC) is the per-workspace home for everything related to who can do what inside a single Huly workspace. It collects the People list, the Spaces list, your own access view, the audit trail, and the Guest application permissions in one place under workspace **Settings → Access Center**.
+
+WAC replaces the legacy `Workspace Members`, `Guests`, and `Global Space Admins` entries in the workspace settings sidebar. The deep-link URLs for those legacy pages still work (see [Legacy routes](/workspace-access-center/legacy-routes)) so existing bookmarks and links continue to resolve.
+
+<Image src={wacPeopleAll} alt="Workspace Access Center, People tab showing the All sub-tab with members and their roles" inferSize quality="max" />
+
+## Who can use it
+
+Every workspace member can open the Access Center, but what they see depends on their workspace role:
+
+- **Owner** — full access to all five tabs and every sub-tab. Owners can change roles, transfer ownership, archive spaces, edit Guest application permissions, and export the audit log.
+- **Maintainer** — full access to People, Resources, My Access, and Audit. Cannot edit Guest Settings and cannot export audit CSV.
+- **User** — read-only People and Resources, full My Access, and a limited (workspace-scoped) Audit view.
+- **Guest / Read-only Guest / Document Guest** — only the My Access tab is shown. Guests see their own role, the spaces they are in, and the access grants they have received.
+
+The tab list adapts automatically — guests do not see tabs they cannot use.
+
+## How to open it
+
+From any workspace, click your workspace name in the top-left, choose **Settings**, then **Access Center** in the workspace settings sidebar.
+
+<Image src={wacSettingsSidebar} alt="Settings sidebar with Access Center entry under WORKSPACE SETTINGS" inferSize quality="max" />
+
+The direct URL is:
+
+```
+/workbench/<workspace-url>/setting/setting/accessCenter
+```
+
+## The five tabs
+
+WAC has five top-level tabs. Each tab is documented on its own page:
+
+- **[People](/workspace-access-center/people)** — list members, change roles, manage invites, surface inactive accounts.
+- **[Resources](/workspace-access-center/resources)** — list spaces (Projects, Funnels, Teamspaces, Drives, Cards) with privacy, auto-join, and archive state. Walk the workspace hierarchy.
+- **[My Access](/workspace-access-center/my-access)** — see your own role, the spaces you are in, the spaces you own, and the per-resource grants given to or by you.
+- **[Audit](/workspace-access-center/audit)** — review the chronological log of access-related actions in this workspace, with filters and CSV export.
+- **[Guest Settings](/workspace-access-center/guest-settings)** — Owner-only. Per-application permission editor for the `Guest` and `Anonymous guest` workspace roles.
+
+A sixth **Presets** tab is shown when the preview-features flag is on; see [Preview features](/workspace-access-center/preview-features) for details.
+
+## What it is not
+
+WAC is **not** the instance-wide [Global Admin Panel](/admin-panel/overview). The Global Admin Panel covers account-level concerns across all workspaces of a self-hosted Huly instance (`ADMIN_EMAILS` allowlist, force-disable accounts, mass-archive workspaces, instance audit log). WAC is scoped to a single workspace and runs for every workspace member that has permission to use it — not just instance admins.
+
+## Audit logging
+
+Every state-changing edit made through the People and Resources tabs is written to the workspace audit log with the actor's UUID, the action name, the affected entity, and a timestamp. The retention period (default 365 days) is shown as a banner above the tab strip. See [Audit](/workspace-access-center/audit) for the full list of actions and the CSV-export procedure.

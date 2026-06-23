@@ -1,0 +1,70 @@
+---
+title: Guest Settings
+description: Owner-only per-application permission editor for the Guest and Anonymous guest workspace roles.
+---
+
+import { Image } from "astro:assets";
+import wacGuest from "../../../assets/screenshots/huly/wac/guest-settings.png";
+
+The **Guest Settings** tab is the per-application permission editor for the workspace's two guest roles:
+
+- **Guest** — a signed-in user who has been invited as a guest of this workspace.
+- **Anonymous guest** — an unauthenticated visitor following a public link or a guest-link.
+
+The tab is visible to Owners only. Maintainers and Users do not see it in the tab strip.
+
+<Image src={wacGuest} alt="Guest Settings tab with Guest and Anonymous guest tabs and per-application permission editors" inferSize quality="max" />
+
+## Role selector
+
+Two top-level tabs at the top of the panel select which guest role you are editing:
+
+- **Guest** — settings for signed-in guests.
+- **Anonymous guest** — settings for unauthenticated visitors.
+
+Both roles share the same set of applications below; the per-application permissions are independent.
+
+## Application permissions
+
+A guidance line above the application list explains the model:
+
+> Choose which applications guests can use, then adjust permissions for each application below.
+
+Each application has its own card with two parts:
+
+- **Enabled toggle** — whether guests of this role have any access to the application at all. Toggling off hides the application's UI for guests of this role.
+- **Permissions** — per-application capability flags such as `Allow creating issues` (Tracker) or `Allow creating cards` (Cards). Capabilities that the application does not yet expose to guests are greyed out with a `coming soon` label.
+
+Below the capability flags every application card has an **Auto-join spaces** picker:
+
+> When enabled, workspace guests are added to this space on activation.
+
+Pick the spaces a guest of this role should be added to when they activate their invite. Multiple spaces can be selected. The picker is per-application, so a Guest can be auto-joined to a Tracker project and a Documents teamspace independently.
+
+Currently the following application cards are present:
+
+- **Tracker** — issue creation, assignee picker.
+- **Cards** — card creation.
+- **Chat** — auto-join to chat spaces only (no creation rights today).
+- **Documents** — read / comment / edit.
+- **Office** — auto-join only (rooms and devices are managed inside Office).
+- **Planner** — auto-join only.
+- **Drive** — auto-join only.
+- **Test Management (beta)** — auto-join only.
+
+The card set is driven by the installed Huly applications. If your instance has additional applications enabled, additional cards appear.
+
+## Global toggles
+
+Two top-level toggles sit outside the per-application list:
+
+- **allowReadOnlyGuests** — whether the workspace exposes the `Read-only Guest` role at all. Turning this off hides the role in the People-tab role picker and rejects new Read-only guest invites server-side.
+- **allowGuestSignUp** — whether the public sign-up endpoint for this workspace accepts guest registrations. Turning this off keeps the guest application set but stops new guests from joining without an explicit invite.
+
+## Guest communication settings
+
+A dedicated section at the bottom controls fine-grained per-card permissions for the **chat** application:
+
+- **allowedCards** — a multi-select of card classes that guests are allowed to comment on. Default is empty (no comment rights). Add classes to opt them in.
+
+Every change in Guest Settings is written to the workspace audit log under the `guest_settings_changed` action.

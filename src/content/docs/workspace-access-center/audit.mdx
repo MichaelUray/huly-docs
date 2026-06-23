@@ -1,0 +1,54 @@
+---
+title: Audit
+description: Review the chronological log of access-related actions in a workspace, filter by action and actor, and export to CSV.
+---
+
+import { Image } from "astro:assets";
+import wacAudit from "../../../assets/screenshots/huly/wac/audit.png";
+
+The **Audit** tab is the workspace's access-change ledger. Every state-changing edit made from the People and Resources tabs — and a number of related actions raised by other parts of Huly, such as space archive / unarchive triggered by an automation — is written here with the actor's UUID, a canonical action name, the affected entity, and a timestamp.
+
+<Image src={wacAudit} alt="Audit tab with action dropdown, date range pickers, and table" inferSize quality="max" />
+
+Retention is shown as a banner above the WAC tab strip:
+
+> Workspace audit retention is 365 days. Edits from the People / Resources panels below are logged with the actor's UUID.
+
+The retention default is 365 days. Self-hosted operators can change it via the `AUDIT_RETENTION_DAYS` environment variable on the workspace service (see [Configuration](/admin-panel/configuration) for the equivalent setting on the instance audit log; the workspace audit follows the same variable).
+
+## Filters
+
+Three filters sit above the table:
+
+- **Action** — a dropdown of canonical action names (`role_changed`, `member_added`, `member_removed`, `space_archived`, `space_unarchived`, `space_privacy_changed`, `grant_issued`, `grant_revoked`, `ownership_transferred`, …). Default is `Any action`.
+- **From** — start date. `No date` leaves the lower bound open.
+- **To** — end date. `No date` leaves the upper bound open.
+- **Clear** — resets all three filters.
+
+A fourth filter on the **Actor** column allows substring search on actor display name or UUID.
+
+## Columns
+
+- **Timestamp** — ISO-8601 timestamp with timezone (UTC by default).
+- **Actor** — the user who performed the action, or `system` for actions raised by automations and prune jobs.
+- **Action** — canonical action name.
+- **Entity** — the affected entity (member name, space name, grant ID, …).
+- **Detail** — short human-readable description of what changed.
+
+The table is sorted by timestamp descending. Click the timestamp header to invert.
+
+## CSV Export (Owner-only)
+
+The **Export CSV** button in the top-right is visible to Owners only. Clicking it opens a confirmation dialog:
+
+> Exporting the audit log creates a file containing user UUIDs, action names, and timestamps. This data is subject to your organisation's data-handling policy. Continue?
+
+The dialog is intentional — the export carries personally identifiable references (UUIDs and display names) and may fall under your organisation's data-protection rules. Acknowledge the dialog to download a UTF-8 CSV with a header row.
+
+The export respects the active filters. To export only `role_changed` events in the last 30 days, set the filters first and then click **Export CSV**.
+
+## Retention behaviour
+
+A daily prune job removes audit rows older than `AUDIT_RETENTION_DAYS`. On instances where the prune job has not run yet — for example a fresh install — older rows may still be visible. The prune job is idempotent and skips rows that are already gone.
+
+Setting `AUDIT_RETENTION_DAYS=0` disables the prune entirely. Use this if you forward audit rows to an external SIEM and want the database to be the source of truth indefinitely.

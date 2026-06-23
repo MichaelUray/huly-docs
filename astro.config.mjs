@@ -367,6 +367,44 @@ export default defineConfig({
               },
             ],
           },
+          {
+            label: "Workspace Access Center",
+            collapsed: true,
+            items: [
+              {
+                label: "Overview",
+                link: "/workspace-access-center/overview/",
+              },
+              {
+                label: "People",
+                link: "/workspace-access-center/people/",
+              },
+              {
+                label: "Resources",
+                link: "/workspace-access-center/resources/",
+              },
+              {
+                label: "My Access",
+                link: "/workspace-access-center/my-access/",
+              },
+              {
+                label: "Audit",
+                link: "/workspace-access-center/audit/",
+              },
+              {
+                label: "Guest Settings",
+                link: "/workspace-access-center/guest-settings/",
+              },
+              {
+                label: "Legacy routes",
+                link: "/workspace-access-center/legacy-routes/",
+              },
+              {
+                label: "Preview features",
+                link: "/workspace-access-center/preview-features/",
+              },
+            ],
+          },
         ],
       }),
     ],

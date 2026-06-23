@@ -1,0 +1,52 @@
+---
+title: Preview features
+description: WAC preview features behind the WAC_PREVIEW_FEATURES env flag — what is gated, what works today, and what is on the roadmap.
+---
+
+A handful of WAC features are shipped as **preview** — the UI is in the tree, the i18n strings are translated, the routing wires up, but the server-side backend either returns `501 Not Implemented` or is intentionally simplified. Preview features are hidden by default and are revealed when the `WAC_PREVIEW_FEATURES` environment variable on the workspace front service is set to `true`.
+
+The intent is to ship the UI early so feedback can be collected before the backend lands, and so self-hosters can enable individual previews per workspace if they want to dogfood them.
+
+## Enabling previews
+
+Set the env flag on the workspace front service:
+
+```bash
+# docker-compose.yml or .env on the front pod
+WAC_PREVIEW_FEATURES=true
+```
+
+Restart the front pod for the change to take effect. The flag is read at workspace mount time; existing browser sessions need a reload.
+
+When the flag is on, an extra **Presets** tab appears in the WAC tab strip and several inline preview affordances become visible. When the flag is off, none of the preview UI is shown.
+
+## What is in preview today
+
+Six features are currently gated behind the flag:
+
+1. **Self-service Leave (Spaces I'm in)** — a **Leave** action on the My Access → Spaces I'm in sub-tab. Server stub returns `501`.
+2. **Self-service Decline (Granted to me)** — a **Decline** action on Granted to me. Server stub returns `501`.
+3. **Per-resource grant management** — inline edit / revoke for grants on the Granted by me sub-tab. Read works; write returns `501`.
+4. **Effective-permissions resolver** — a richer drill-down view in the Person Drawer that resolves the effective permissions for a given member across all spaces in real time. Today the off-flag drawer shows a static list; the preview version walks the live tree.
+5. **Bulk-bar preset chips** — preset chips above the People bulk bar (`All inactive`, `All guests`, `All without recent activity`) that pre-select rows matching the preset. Selection works client-side; the underlying queries are stable.
+6. **Presets tab** — the sixth top-level tab that lets Owners save named filter combinations across People and Resources for re-use.
+
+## Roadmap signal
+
+Preview features are not abandoned — they are the next iteration's primary backlog. The follow-up release schedules real backends for items 1, 2, and 3 first, and richer backends for items 4, 5, 6 after. The env flag will continue to exist after the backends land, so operators can keep the chrome hidden if they prefer.
+
+## How preview status is shown
+
+Preview-only controls are decorated:
+
+- **Buttons** carry a small `preview` chip next to the label.
+- **Tabs** (the Presets tab) carry the same `preview` chip in the tab label.
+- **Network calls** that would return `501` are caught client-side and a non-fatal toast is shown:
+
+> This action is in preview. The server-side backend is not implemented yet.
+
+No data is mutated for preview actions that return `501`. Audit log entries are written only when the server confirms the mutation.
+
+## Disabling previews
+
+Set `WAC_PREVIEW_FEATURES=false` (or unset it) and restart the front pod. Preview UI disappears on next workspace mount. Users with the preview UI cached in an old session see it until they reload.

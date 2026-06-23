@@ -1,0 +1,48 @@
+---
+title: Legacy routes and Settings IA
+description: How the Workspace Access Center consolidates the legacy Workspace Members, Guests, and Global Space Admins entries, and which deep-links still work.
+---
+
+import { Image } from "astro:assets";
+import wacSettingsSidebar from "../../../assets/screenshots/huly/wac/settings-sidebar.png";
+
+Before the Workspace Access Center, four separate entries under workspace **Settings** covered access concerns:
+
+- `Workspace Members` — list and edit workspace members.
+- `Guests` — manage guest invitations and per-application guest permissions.
+- `Global Space Admins` — assign workspace-wide space admin rights.
+- `Admin panel` — the instance-wide administrative UI.
+
+WAC consolidates the first three under a single **Access Center** entry. The fourth is renamed for disambiguation.
+
+<Image src={wacSettingsSidebar} alt="Workspace settings sidebar with the new Access Center entry replacing legacy items" inferSize quality="max" />
+
+## Sidebar changes
+
+In the workspace settings sidebar:
+
+- **Workspace Members** — hidden. Use [Access Center → People](/workspace-access-center/people).
+- **Guests** — hidden. Use [Access Center → Guest Settings](/workspace-access-center/guest-settings).
+- **Global Space Admins** — hidden. Equivalent functionality lives under [Access Center → Resources](/workspace-access-center/resources) via the per-space Transfer ownership and member-role pickers.
+- **Admin panel** — renamed to **Global Admin Panel** to distinguish it from the per-workspace Access Center.
+
+## Deep-links still work
+
+The legacy URLs are kept alive. Existing bookmarks, links in third-party documentation, and external workflow tooling continue to resolve to a working page:
+
+| Legacy path | Behaviour today |
+|---|---|
+| `/setting/owners` | Loads the legacy Workspace Members page. A banner suggests opening **Access Center → People** instead. |
+| `/setting/guestPermissions` | Loads the legacy Guest Permissions page. A banner suggests opening **Access Center → Guest Settings** instead. |
+| `/setting/allSpaces` | Loads the legacy All Spaces page. A banner suggests opening **Access Center → Resources** instead. |
+
+There is no scheduled date to retire the legacy pages. The banners are advisory only.
+
+## Why the rename
+
+`Admin panel` previously referred to two different things depending on context:
+
+- the workspace-internal admin tools (members, guests, space admins);
+- the instance-wide admin UI documented under [Global Admin Panel](/admin-panel/overview).
+
+The Access Center consolidation is the right opportunity to disambiguate: workspace-internal access lives under **Access Center**, instance-wide access lives under **Global Admin Panel**. The terms are kept distinct everywhere in the workbench and in this documentation.

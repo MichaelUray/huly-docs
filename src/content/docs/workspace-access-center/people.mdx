@@ -1,0 +1,73 @@
+---
+title: People
+description: Manage workspace members, change roles, bulk-edit, and surface inactive accounts.
+---
+
+import { Image } from "astro:assets";
+import wacPeopleAll from "../../../assets/screenshots/huly/wac/people-all.png";
+import wacPeopleByRole from "../../../assets/screenshots/huly/wac/people-by-role.png";
+import wacPeopleInactive from "../../../assets/screenshots/huly/wac/people-inactive.png";
+import wacPersonDrawer from "../../../assets/screenshots/huly/wac/person-drawer.png";
+
+The **People** tab lists every member of the workspace and is the place to change roles, batch-edit memberships, find inactive accounts, and triage pending invites.
+
+<Image src={wacPeopleAll} alt="People tab, All sub-tab with member table" inferSize quality="max" />
+
+## Sub-tabs
+
+The sub-tab strip narrows the table by category:
+
+- **All** — every member of the workspace, regardless of role or activity.
+- **By role** — same table grouped by role (Owner → Maintainer → User → Guest → Read-only Guest → Document Guest). Each group is collapsible.
+- **Inactive (90d+)** — members whose last activity is older than 90 days. The threshold is fixed.
+- **Granted access (N)** — members who hold at least one explicit per-resource grant (mention-grant, document-grant, link-grant). The number in parentheses is the current count.
+- **Pending invites** — invite tokens that have been issued but not yet accepted. Cancel invites from here.
+
+<Image src={wacPeopleByRole} alt="People tab, By role sub-tab grouping members by workspace role" inferSize quality="max" />
+
+## Columns and sorting
+
+The table has four columns:
+
+- **Name** — display name and avatar. Click to open the [Person Drawer](#person-drawer).
+- **Role** — the member's workspace role (Owner, Maintainer, User, Guest, Read-only Guest, Document Guest).
+- **Last activity** — `today`, `Nd`, `90d+`, or `never`. Used by the **Inactive** sub-tab to filter.
+- **Spaces** — count of spaces this member belongs to.
+
+Every column header is sortable. Click to toggle ascending/descending. A small arrow shows on the active sort column only.
+
+<Image src={wacPeopleInactive} alt="Inactive (90d+) sub-tab with members whose last activity is older than 90 days" inferSize quality="max" />
+
+## Bulk actions
+
+Selecting one or more rows with the checkbox in the first column reveals a **bulk actions bar** above the table:
+
+- **Add to Space** — opens a space picker. Selected members are added to the chosen space at their existing workspace role (or as `Member`, depending on the space type).
+- **Remove from Space** — opens a space picker scoped to spaces the selection currently belongs to. Members are removed from the chosen space.
+- **Change role** — a role dropdown plus **Apply**. The role change applies to every selected member.
+- **Cancel** — clears the selection and hides the bar.
+
+### Last-Owner protection
+
+When a bulk **Change role** would leave the workspace with zero Owners, a confirmation MessageBox is shown:
+
+> Workspace currently has 2 Owners. Demoting both will leave the workspace without an Owner. Continue?
+
+Click **Cancel** to abort, or **Continue** to acknowledge and proceed. The check runs server-side as well — the UI confirmation is a guard, not the security primitive.
+
+## Person Drawer
+
+Clicking a row opens a right-side drawer with the member's full per-workspace view:
+
+<Image src={wacPersonDrawer} alt="Person drawer with workspace role picker, save button, and effective-permissions section" inferSize quality="max" />
+
+The drawer header shows the member's name, avatar, and current role. Below that:
+
+- **Workspace role** — a dropdown to change the role. The picker disables choices the calling user cannot grant (for example, a Maintainer cannot set someone to Owner). **Save Role** commits the change. The Owner-count guard from the bulk bar also applies here.
+- **Effective permissions** — a collapsible list of every space the member has access to with the effective role per space. Expand to drill down by Space ID. Useful when a Maintainer or Owner wants to verify what a member can actually see and edit.
+
+Press `Escape` or click outside the drawer to dismiss.
+
+## Search
+
+A search box above the table filters on display name and email substring (case-insensitive, 300 ms debounce). Search composes with the active sub-tab — searching while on **Inactive (90d+)** restricts the search to inactive members only.
